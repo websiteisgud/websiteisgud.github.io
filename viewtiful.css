@@ -1,0 +1,10 @@
+a {
+    text-decoration: none;
+    text-transform: uppercase;
+    color: red;
+}
+
+p {
+    text-shadow: rgb(51,73,85);
+    color: white;
+}
