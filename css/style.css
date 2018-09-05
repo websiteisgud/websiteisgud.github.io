@@ -133,8 +133,8 @@ footer{
   #newsletter h1,
   #newsletter form,
   #boxes .box,
-  article#main-col,
-  aside#sidebar{
+  #main-col,
+  #sidebar{
     float:none;
     text-align:center;
     width:100%;
@@ -147,4 +147,5 @@ footer{
   #showcase h1{
     margin-top:40px;
   }
-}
+
+}    
