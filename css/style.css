@@ -95,20 +95,20 @@ header a:hover{
 /* Showcase */
 #showcase{
   min-height:400px;
-  background:url('showcase.gif') no-repeat 0 0px;
+  background:url('showcase.gif') ;
   text-align:center;
   color:#ffffff;
-  text-shadow:
--1px -1px 0 #000,
-1px -1px 0 #000,
--1px 1px 0 #000,
-1px 1px 0 #000;
 }
 
 #showcase {
   margin-top:100px;
   font-size:55px;
   margin-bottom:10px;
+    text-shadow:
+-1px -1px 0 #000,
+1px -1px 0 #000,
+-1px 1px 0 #000,
+1px 1px 0 #000;
 }
 
 #showcase p{
