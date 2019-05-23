@@ -1,0 +1,95 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Processing Demo</title>
+<script type="text/javascript" src="gamer.js"></script>
+</head>
+<body>
+<script type="text/processing">
+        /**
+          *@Author: Nguyen Trac
+          *@Version: 3.0 5/14/19
+          */
+   
+        int gamestate = 1, score = 0, highScore = 0, x = -200, y, Vy = 0, wx[] = new int[2], wy[] = new int[2];
+        PImage bg;
+        PImage ball;
+        PImage walls;
+        PImage startImg;
+        int counter;
+
+        void setup(){
+          size(600,800);
+          fill(0);
+          textSize(30);
+  
+          bg = loadImage("./bg.png");
+          ball = loadImage("./ball.png");
+          walls = loadImage("./walls.png");
+          startImg = loadImage("./startImg.png");  
+        }
+
+        void draw() { //runs 60 times a second
+          counter++;
+          if(gamestate == 0) {
+            imageMode(CORNER);
+            image(bg, x, 0);
+        
+              x -= 4;
+   
+            if(counter% 2 == 0){
+      
+              Vy += 1;
+            }
+            y += Vy;
+            if(x == -1800) x = 0;
+            for(int i = 0 ; i < 2; i++) { 
+              imageMode(CENTER);
+              image(walls, wx[i], wy[i] - (walls.height/2+100));
+              image(walls, wx[i], wy[i] + (walls.height/2+100));
+              if(wx[i] < -150) {
+                wy[i] = (int)random(200,height-200);
+                wx[i] = width;
+              }
+              if(wx[i] == width/2) highScore = max(++score, highScore);
+              if(y>height||y<0||(abs(width/2-wx[i])<25 && abs(y-wy[i])>100)) gamestate=1;
+              wx[i] -= 6;
+            }
+            image(ball, width/2, y);
+            text(""+score, width/2-15, 700);
+          }        
+          else {
+            imageMode(CENTER);
+            image(startImg, width/2,height/2);
+            text("High Score: "+highScore, 50, width);
+          }
+        }
+        void mousePressed() {
+          Vy = -8;
+          if(gamestate==1) {
+            wx[0] = 600;
+            wy[0] = y = height/2;
+            wx[1] = 900;
+            wy[1] = 600;
+            x = gamestate = score = 0;
+          }        
+        }
+        void keyPressed() {//PAUSE
+          final int l = keyCode;
+          final int k = keyCode;
+          if(gamestate == 0){
+            if (l == TAB)//Superflap
+              Vy = -24; 
+            if (k == BACKSPACE){
+
+              if (looping)  noLoop();
+              else          loop();
+              text(" PAUSED ", 250, width/2);
+              } 
+         }
+        }
+
+</script>
+<canvas id="sketch" style="border: 1px solid black;"></canvas>
+</body>
+</html>

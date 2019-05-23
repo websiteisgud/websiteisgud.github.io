@@ -95,7 +95,7 @@ header a:hover{
 /* Showcase */
 #showcase{
   min-height:400px;
-  background:url('showcase.gif') ;
+  background:url("zhowcase.gif") no-repeat 0 -400px ;
   text-align:center;
   color:#ffffff;
 }
