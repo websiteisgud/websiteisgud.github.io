@@ -22,26 +22,27 @@ void setup(){
   noCursor();
   noStroke();
 
-  cross = loadImage("./cross.png");
-  cursor = loadImage("./cursor.png");
-  holes = loadImage("./holes.png");
-  startScn = loadImage("./startScn.png");
-  winner1 = loadImage("./winner1.png");
-  winner2 = loadImage("./winner2.png");
+  cross = loadImage("cross.png");
+  cursor = loadImage("cursor.png");
+  holes = loadImage("holes.png");
+  startScn = loadImage("startScn.png");
+  winner1 = loadImage("winner1.png");
+  winner2 = loadImage("winner2.png");
 }
 void draw(){
  if(gamestate == 1) {
    background(88, 127, 98);
-   circle(x,y,50);
+   ellipse(x,y,50,50);
    fill(0);
    image(cross,mouseX,mouseY+8);
    time = time - 1;
+   textSize(45);
    if (time>0){
-     text("Time Left: ",50,100);
+     text("Time Left: ",80,100);
      text(time,300,100);
    }
    if (lives>0){
-      text("Lives Left: ", 950, 100);
+      text("Lives Left: ", 980, 100);
       text(lives, 1200, 100);
    }
     
@@ -59,7 +60,7 @@ void draw(){
      if(mousePressed){
        gamestate = 1;
        time = 9999;
-       lives = 10;
+       lives = 5;
    }
      fill(100);
    }
@@ -115,7 +116,7 @@ void p1_wins(){
    if(mouseX > 500 && mouseX < 900 && mouseY > 650 && mouseY < 750){//reset game
      if(mousePressed){
        time = 9999;
-       lives = 10;
+       lives = 5;
    }
      fill(100);
    }
@@ -141,7 +142,7 @@ void p2_wins(){
    if(mouseX > 500 && mouseX < 900 && mouseY > 650 && mouseY < 750){//reset game
      if(mousePressed){
      time = 9999;
-     lives = 10;
+     lives = 5;
    }
      fill(100);
    }
@@ -152,6 +153,7 @@ void p2_wins(){
   }
 }
 
+  
   
 
   
