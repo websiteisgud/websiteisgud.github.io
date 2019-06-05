@@ -11,7 +11,7 @@
   *Version: 6/3/19 4.4
   */
 
-int x = 700, y = 400, Vx = 0, Vy=0, state = 1, gamestate = 0 ,lives = 10, time = 5000;
+int x = 700, y = 400, Vx = 0, Vy=0, state = 1, gamestate = 0 ,lives = 10, time = 9999;
 PImage cross; PImage winner1; PImage winner2; PImage startscn; PImage cursor; PImage startScn; PImage holes;
 boolean [] keys = new boolean[128];
 int bx =1000;int by = 200;int bw = 300;int bh = 75;
@@ -58,7 +58,7 @@ void draw(){
    if(mouseX > 100 && mouseX < 300 && mouseY > 650 && mouseY < 750){//start game
      if(mousePressed){
        gamestate = 1;
-       time = 5000;
+       time = 9999;
        lives = 10;
    }
      fill(100);
@@ -114,7 +114,7 @@ void p1_wins(){
    rect(500,650,400,100,3);
    if(mouseX > 500 && mouseX < 900 && mouseY > 650 && mouseY < 750){//reset game
      if(mousePressed){
-       time = 5000;
+       time = 9999;
        lives = 10;
    }
      fill(100);
@@ -140,7 +140,7 @@ void p2_wins(){
    rect(500,650,400,100,3);
    if(mouseX > 500 && mouseX < 900 && mouseY > 650 && mouseY < 750){//reset game
      if(mousePressed){
-     time = 5000;
+     time = 9999;
      lives = 10;
    }
      fill(100);
@@ -151,6 +151,8 @@ void p2_wins(){
    image(cursor,mouseX, mouseY);
   }
 }
+
+  
 
   
 </script>
