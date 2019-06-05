@@ -6,89 +6,153 @@
 </head>
 <body>
 <script type="text/processing">
-        /**
-          *@Author: Nguyen Trac
-          *@Version: 3.0 5/14/19
-          */
-   
-        int gamestate = 1, score = 0, highScore = 0, x = -200, y, Vy = 0, wx[] = new int[2], wy[] = new int[2];
-        PImage bg;
-        PImage ball;
-        PImage walls;
-        PImage startImg;
-        int counter;
+/**
+  *Author: Nguyen Trac
+  *Version: 6/3/19 4.4
+  */
 
-        void setup(){
-          size(600,800);
-          fill(0);
-          textSize(30);
+int x = 700, y = 400, Vx = 0, Vy=0, state = 1, gamestate = 0 ,lives = 10, time = 5000;
+PImage cross; PImage winner1; PImage winner2; PImage startscn; PImage cursor; PImage startScn; PImage holes;
+boolean [] keys = new boolean[128];
+int bx =1000;int by = 200;int bw = 300;int bh = 75;
+
+void setup(){
+  imageMode(CENTER);
+  size(1400,800); 
+  noCursor();
+  noStroke();
+
+  cross = loadImage("./cross.png");
+  cursor = loadImage("./cursor.png");
+  holes = loadImage("./holes.png");
+  startScn = loadImage("./startScn.png");
+  winner1 = loadImage("./winner1.png");
+  winner2 = loadImage("./winner2.png");
+}
+void draw(){
+ if(gamestate == 1) {
+   background(88, 127, 98);
+   circle(x,y,50);
+   fill(0);
+   image(cross,mouseX,mouseY+8);
+   time = time - 1;
+   if (time>0){
+     text("Time Left: ",50,100);
+     text(time,300,100);
+   }
+   if (lives>0){
+      text("Lives Left: ", 950, 100);
+      text(lives, 1200, 100);
+   }
+    
+   }
+   move();
+   p1_wins();
+   p2_wins();
+   textSize(50);
+   fill(45, 162, 202);
+  if (gamestate==0){
+    image(startScn, 700, 400);
+       fill(255);
+   rect(100,650,200,100,3);
+   if(mouseX > 100 && mouseX < 300 && mouseY > 650 && mouseY < 750){//start game
+     if(mousePressed){
+       gamestate = 1;
+       time = 5000;
+       lives = 10;
+   }
+     fill(100);
+   }
+   textSize(60);
+   fill(0);
+   text("Start",125,725);
+   image(cursor,mouseX, mouseY);
+  }
+ }
+ 
+void keyPressed(){
+  keys[key] = true;
+  }
+ 
+void keyReleased(){
+    keys[key] = false;
+  }
+void move(){//circle movements
+   if (keyPressed){
+     if (keys['d']){
+       if (x > 1345){
+         x = 1345;
+       }
+         x+=30;
+     }
+      if(keys['a']){
+        if (x < 55){
+          x = 55;
+        }
+         x-=30;
+      }
+ 
+      if(keys['s']){
+        if(y>755){
+          y = 745;
+        }
+        y +=30;
+      }
+      if(keys['w']){
+        if(y<55){
+          y = 55;
+        }
+        y -=30;
+      }
+   }    
+}
+
+void p1_wins(){
+ if(time<1){
+   image(winner1,700,400);
+   fill(255);
+   rect(500,650,400,100,3);
+   if(mouseX > 500 && mouseX < 900 && mouseY > 650 && mouseY < 750){//reset game
+     if(mousePressed){
+       time = 5000;
+       lives = 10;
+   }
+     fill(100);
+   }
+   textSize(60);
+   fill(0);
+   text("PLAY AGAIN",525,725);
+   image(cursor,mouseX, mouseY);
+  }  
+}
+
+void mousePressed(){ //detect when cursors clicks circle
+  if(mouseX > x-25 && mouseX < x+25 && mouseY > y-25 && mouseY < y+25){
+      lives = lives - 1;
+      background(255,0,0);
+    }
+}
+
+void p2_wins(){
+  if (lives<1){
+   image(winner2,700,400);
+   fill(255);
+   rect(500,650,400,100,3);
+   if(mouseX > 500 && mouseX < 900 && mouseY > 650 && mouseY < 750){//reset game
+     if(mousePressed){
+     time = 5000;
+     lives = 10;
+   }
+     fill(100);
+   }
+   textSize(60); 
+   fill(0);
+   text("PLAY AGAIN",525,725);
+   image(cursor,mouseX, mouseY);
+  }
+}
+
   
-          bg = loadImage("./bg.png");
-          ball = loadImage("./ball.png");
-          walls = loadImage("./walls.png");
-          startImg = loadImage("./startImg.png");  
-        }
-
-        void draw() { //runs 60 times a second
-          counter++;
-          if(gamestate == 0) {
-            imageMode(CORNER);
-            image(bg, x, 0);
-        
-              x -= 4;
-   
-            if(counter% 2 == 0){
-      
-              Vy += 1;
-            }
-            y += Vy;
-            if(x == -1800) x = 0;
-            for(int i = 0 ; i < 2; i++) { 
-              imageMode(CENTER);
-              image(walls, wx[i], wy[i] - (walls.height/2+100));
-              image(walls, wx[i], wy[i] + (walls.height/2+100));
-              if(wx[i] < -150) {
-                wy[i] = (int)random(200,height-200);
-                wx[i] = width;
-              }
-              if(wx[i] == width/2) highScore = max(++score, highScore);
-              if(y>height||y<0||(abs(width/2-wx[i])<25 && abs(y-wy[i])>100)) gamestate=1;
-              wx[i] -= 6;
-            }
-            image(ball, width/2, y);
-            text(""+score, width/2-15, 700);
-          }        
-          else {
-            imageMode(CENTER);
-            image(startImg, width/2,height/2);
-            text("High Score: "+highScore, 50, width);
-          }
-        }
-        void mousePressed() {
-          Vy = -8;
-          if(gamestate==1) {
-            wx[0] = 600;
-            wy[0] = y = height/2;
-            wx[1] = 900;
-            wy[1] = 600;
-            x = gamestate = score = 0;
-          }        
-        }
-        void keyPressed() {//PAUSE
-          final int l = keyCode;
-          final int k = keyCode;
-          if(gamestate == 0){
-            if (l == TAB)//Superflap
-              Vy = -24; 
-            if (k == BACKSPACE){
-
-              if (looping)  noLoop();
-              else          loop();
-              text(" PAUSED ", 250, width/2);
-              } 
-         }
-        }
-
 </script>
 <canvas id="sketch" style="border: 1px solid black;"></canvas>
 </body>
